@@ -14,7 +14,7 @@
             android:id="@+id/left_view"
             android:layout_gravity="left"
             android:layout_margin="15dip"
-            android:text="右滑                    f"/>
+            android:text="继续向右滑"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:id="@+id/right_view"
             android:layout_gravity="right"
             android:layout_margin="15dip"
-            android:text="左滑                     f"/>
+            android:text="继续向左滑"/>
     </FrameLayout>
 
 
@@ -34,7 +34,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ff00ff">
+            android:background="@android:color/darker_gray">
 
             <TextView
                 android:id="@+id/list_item"

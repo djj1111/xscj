@@ -18,7 +18,6 @@ import com.djj.view.slidecutlistview.SlideCutListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.extras.SoundPullEventListener;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -67,15 +66,20 @@ public class FirstFragment extends Fragment {
         actualListView.setRemoveListener(new SlideCutListView.RemoveListener(){
             @Override
             public void removeItem(SlideCutListView.RemoveDirection direction, int position) {
-                mAdapter.remove(mAdapter.getItem(position-1));
+                //mAdapter.remove(mAdapter.getItem(position-1));
                 //Log.d("asdfasfdasfasdfasd",":::"+Thread.currentThread().getId()+"    pso="+position);
-                //mListItems.remove(position-1);
+
+
                 //mAdapter.notifyDataSetChanged();
                 switch (direction) {
                     case RIGHT:
+                        mRemoveItemListener.removeitem(0,mListItems.remove(position-1));
+                        mAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "向右删除  "+ position, Toast.LENGTH_SHORT).show();
                         break;
                     case LEFT:
+                        mRemoveItemListener.removeitem(1,mListItems.remove(position-1));
+                        mAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "向左删除  "+ position, Toast.LENGTH_SHORT).show();
                         break;
 
@@ -90,7 +94,7 @@ public class FirstFragment extends Fragment {
         registerForContextMenu(actualListView);
 
         mListItems = new LinkedList<>();
-        mListItems.addAll(Arrays.asList(mStrings));
+        //mListItems.addAll(Arrays.asList(mStrings));
 
         mAdapter = new ArrayAdapter<>(getActivity(),R.layout.list_item,R.id.list_item, mListItems);
 
@@ -125,7 +129,7 @@ public class FirstFragment extends Fragment {
 
         @Override
         protected void onPostExecute(LinkedList result) {
-            mListItems.addFirst("Added after refresh...");
+            mListItems.addFirst(getTag()+"Added after refresh...");
             mAdapter.notifyDataSetChanged();
 
             // Call onRefreshComplete when the list has been refreshed.
@@ -199,9 +203,19 @@ public class FirstFragment extends Fragment {
         return super.onOptionsItemSelected(item);
 
     }*/
-    private String[] mStrings = { "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
-            "Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale", "Aisy Cendre",
-            "Allgauer Emmentaler", "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
-            "Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale", "Aisy Cendre",
-            "Allgauer Emmentaler" };
+    /*private String[] mStrings;
+
+    public void setStrings(String[] s){
+        mStrings=s;
+    }*/
+    public void add(String s){
+        mListItems.addLast(s);
+    }
+    public interface RemoveItemListener{
+        void removeitem(int direction,Object o);
+    }
+    private RemoveItemListener mRemoveItemListener;
+    public void setRemoveItemListener(RemoveItemListener listener){
+        mRemoveItemListener=listener;
+    }
 }
