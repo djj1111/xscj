@@ -32,4 +32,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.handmark.pulltorefresh.library:PullToRefreshLibrary:2.1.1'
     compile(name: 'slidecutlistview', ext: 'aar')
+    compile(name: 'jazzyviewpager', ext: 'aar')
+    compile 'org.xutils:xutils:3.3.38'
+    compile 'com.inthecheesefactory.thecheeselibrary:stated-fragment-support-v4:0.9.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
 }

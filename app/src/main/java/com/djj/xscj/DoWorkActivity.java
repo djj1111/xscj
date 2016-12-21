@@ -8,13 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -23,9 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-
-import static com.djj.example.network.R.id.editText;
-import static com.djj.example.network.R.id.editTextip;
 
 
 public class DoWorkActivity extends Activity {
@@ -108,10 +103,10 @@ public class DoWorkActivity extends Activity {
                     inputStream = new DataInputStream(socketser.getInputStream());
                     while (true){
                     inputdate = inputStream.readUTF();
-                    MainActivity.this.runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            MainActivity.this.textView.setText(textView.getText().toString() + "\n" + socketser.getInetAddress().toString().substring(1) + ":" + inputdate);
+                            getActivity().textView.setText(textView.getText().toString() + "\n" + socketser.getInetAddress().toString().substring(1) + ":" + inputdate);
                         }
                     });
                     }
@@ -270,7 +265,7 @@ public class DoWorkActivity extends Activity {
     private void update() {
         String ip = editTextIp.getText().toString();
         if (filelist.size() == 0) {
-            Toast.makeText(MainActivity.this, "没有文件，请先拍照或录音！", Toast.LENGTH_LONG).show();
+            Toast.makeText(DoWorkActivity.this, "没有文件，请先拍照或录音！", Toast.LENGTH_LONG).show();
             return;
         }
         ArrayList<String> filepath = new ArrayList<>();
@@ -281,7 +276,7 @@ public class DoWorkActivity extends Activity {
         bundle.putStringArrayList("filepath", filepath);
         Intent intent=new Intent();
         intent.putExtra("bundle", bundle);
-        intent.setClass(MainActivity.this,LoadingActivity.class);//跳转到加载界面
+        intent.setClass(DoWorkActivity.this,UpLoadingActivity.class);//跳转到加载界面
         startActivityForResult(intent,NETWORK_REQUESTCODE);
     }
 
@@ -290,11 +285,11 @@ public class DoWorkActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SYSTEM_CAMERA_REQUESTCODE)
             if (resultCode==RESULT_OK){
-                //Toast.makeText(MainActivity.this,"拍照成功",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),"拍照成功",Toast.LENGTH_SHORT).show();
                 File file = new File(photofilepath);
                 filelist.add(file);
             }else {
-                //Toast.makeText(MainActivity.this,"拍照不成功",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),"拍照不成功",Toast.LENGTH_SHORT).show();
                 photofilepath = null;
             }
         if (requestCode==NETWORK_REQUESTCODE)
@@ -308,11 +303,11 @@ public class DoWorkActivity extends Activity {
                         //hasfiles = false;
                         iter.remove();
                     } else {
-                        Toast.makeText(MainActivity.this, "临时文件未能删除，文件路径：" + file.getPath(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DoWorkActivity.this, "临时文件未能删除，文件路径：" + file.getPath(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
-                Toast.makeText(MainActivity.this, "临时文件成功删除", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DoWorkActivity.this, "临时文件成功删除", Toast.LENGTH_SHORT).show();
 
             }else {
                 Bundle bundle = data.getBundleExtra("bundle");
@@ -334,18 +329,18 @@ public class DoWorkActivity extends Activity {
                             //hasfiles = false;
                             iter.remove();
                         } else {
-                            Toast.makeText(MainActivity.this, "临时文件未能删除，文件路径：" + file.getPath(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DoWorkActivity.this, "临时文件未能删除，文件路径：" + file.getPath(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     /*if (!file.delete()){
                         //
                         //hasfiles = false;
-                        Toast.makeText(MainActivity.this, "临时文件未能删除，文件路径：" + file.getPath(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(getActivity(), "临时文件未能删除，文件路径：" + file.getPath(), Toast.LENGTH_SHORT).show()
                     }*/
 
                 }
-                Toast.makeText(MainActivity.this, "上传不完全成功,部分文件未删除", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DoWorkActivity.this, "上传不完全成功,部分文件未删除", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -373,7 +368,7 @@ public class DoWorkActivity extends Activity {
             server.close();*//*
         }catch (SocketTimeoutException e) {
             e.printStackTrace();
-            //Toast.makeText(MainActivity.this, "超时，上传失败",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "超时，上传失败",Toast.LENGTH_LONG).show();
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -386,10 +381,10 @@ public class DoWorkActivity extends Activity {
 
         // String iptemp[]=new String[]{};
         *//*if (ip.contains(".")) iptemp=ip.split(".");
-        Toast.makeText(MainActivity.this,ip,Toast.LENGTH_LONG).show();
-        if (iptemp.length!=4) {Toast.makeText(MainActivity.this,"error1",Toast.LENGTH_LONG).show();return;}
+        Toast.makeText(getActivity(),ip,Toast.LENGTH_LONG).show();
+        if (iptemp.length!=4) {Toast.makeText(getActivity(),"error1",Toast.LENGTH_LONG).show();return;}
         for (int i=0;i<4;i++)
-            if (isNumeric(iptemp[i])) {Toast.makeText(MainActivity.this,"error2",Toast.LENGTH_LONG).show();return;}*//*
+            if (isNumeric(iptemp[i])) {Toast.makeText(getActivity(),"error2",Toast.LENGTH_LONG).show();return;}*//*
 
         new Thread(new Runnable() {
             @Override
@@ -397,7 +392,7 @@ public class DoWorkActivity extends Activity {
                 *//*runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.this,ip,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),ip,Toast.LENGTH_LONG).show();
                     }
                 });*//*
                 ip=editText.getText().toString();
@@ -422,7 +417,7 @@ public class DoWorkActivity extends Activity {
                     e.printStackTrace();
                 } catch (SocketTimeoutException e) {
                     e.printStackTrace();
-                    //Toast.makeText(MainActivity.this, "超时，上传失败",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "超时，上传失败",Toast.LENGTH_LONG).show();
                 }catch (IOException e) {
                     e.printStackTrace();
                 }

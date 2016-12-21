@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,9 @@ import com.djj.view.slidecutlistview.SlideCutListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.extras.SoundPullEventListener;
 
-import java.util.LinkedList;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by djj on 2016/12/18.
@@ -26,8 +27,9 @@ import java.util.LinkedList;
 
 public class FirstFragment extends Fragment {
     private MyPullToRefreshListView mPullToRefreshListView;
-    private ArrayAdapter<String> mAdapter;
-    private LinkedList<String> mListItems;
+    private SlideCutListView mSlideCutListView;
+    private ArrayAdapter<ListTestTable> mAdapter;
+    private ArrayList<ListTestTable> mListItems;
     public FirstFragment(){
 
     }
@@ -59,11 +61,11 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        SlideCutListView actualListView = (SlideCutListView) mPullToRefreshListView.getRefreshableView();
-        actualListView.setFrontResId(R.id.front_layout);
-        actualListView.setBackgroundLeftResId(R.id.left_view);
-        actualListView.setBackgroundRightResId(R.id.right_view);
-        actualListView.setRemoveListener(new SlideCutListView.RemoveListener(){
+        mSlideCutListView = (SlideCutListView) mPullToRefreshListView.getRefreshableView();
+        mSlideCutListView.setFrontResId(R.id.front_layout);
+        mSlideCutListView.setBackgroundLeftResId(R.id.left_view);
+        mSlideCutListView.setBackgroundRightResId(R.id.right_view);
+        mSlideCutListView.setRemoveListener(new SlideCutListView.RemoveListener(){
             @Override
             public void removeItem(SlideCutListView.RemoveDirection direction, int position) {
                 //mAdapter.remove(mAdapter.getItem(position-1));
@@ -91,9 +93,12 @@ public class FirstFragment extends Fragment {
         });
 
         // Need to use the Actual ListView when registering for Context Menu
-        registerForContextMenu(actualListView);
-
-        mListItems = new LinkedList<>();
+        registerForContextMenu(mSlideCutListView);
+        if (savedInstanceState!=null){
+            mListItems=savedInstanceState.getParcelableArrayList("mListItems");
+        }
+        if (mListItems==null)
+        mListItems = new ArrayList<>();
         //mListItems.addAll(Arrays.asList(mStrings));
 
         mAdapter = new ArrayAdapter<>(getActivity(),R.layout.list_item,R.id.list_item, mListItems);
@@ -109,17 +114,16 @@ public class FirstFragment extends Fragment {
 
         // You can also just use setListAdapter(mAdapter) or
         // mPullToRefreshListView.setAdapter(mAdapter)
-        actualListView.setAdapter(mAdapter);
+        mSlideCutListView.setAdapter(mAdapter);
         return view;
     }
 
-    private class GetDataTask extends AsyncTask<Void, Void, LinkedList> {
+    private class GetDataTask extends AsyncTask<Void, Void, ArrayList> {
 
         @Override
-        protected LinkedList<String> doInBackground(Void... params) {
+        protected ArrayList<ListTestTable> doInBackground(Void... params) {
             // Simulates a background job.
             try {
-                Log.d("asdfasfdasfasdfasd",":::"+Thread.currentThread().getId());
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -128,8 +132,15 @@ public class FirstFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(LinkedList result) {
-            mListItems.addFirst(getTag()+"Added after refresh...");
+        protected void onPostExecute(ArrayList result) {
+            ListTestTable listTestTablel=new ListTestTable();
+            TestTable testTable=new TestTable();
+            SimpleDateFormat    formatter    =   new SimpleDateFormat("yyyy年MM月dd日hh时mm分ss秒");
+            Date    curDate    =   new    Date(System.currentTimeMillis());//获取当前时间
+            String    str    =    formatter.format(curDate);
+            testTable.setInputdate(str);
+            listTestTablel.add(testTable);
+            mListItems.add(0,listTestTablel);
             mAdapter.notifyDataSetChanged();
 
             // Call onRefreshComplete when the list has been refreshed.
@@ -208,8 +219,8 @@ public class FirstFragment extends Fragment {
     public void setStrings(String[] s){
         mStrings=s;
     }*/
-    public void add(String s){
-        mListItems.addLast(s);
+    public void add(Object t){
+        mListItems.add((ListTestTable)t);
     }
     public interface RemoveItemListener{
         void removeitem(int direction,Object o);
@@ -218,4 +229,35 @@ public class FirstFragment extends Fragment {
     public void setRemoveItemListener(RemoveItemListener listener){
         mRemoveItemListener=listener;
     }
+
+   /* @Override
+    protected void onSaveState(Bundle outState) {
+        outState.putStringArrayList("mlistItems",new ArrayList<String>(mListItems));
+        super.onSaveState(outState);
+    }
+
+    @Override
+    protected void onRestoreState(Bundle savedInstanceState) {
+        super.onRestoreState(savedInstanceState);
+        mListItems=new LinkedList<>(savedInstanceState.getStringArrayList("mlistItems"));
+    }*/
+
+    /*@Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null){
+            Log.w("asdfasdfasdfasf",""+savedInstanceState.getStringArrayList("mListItems").toString());
+            mListItems=new LinkedList<>(savedInstanceState.getStringArrayList("mListItems"));
+        }
+
+    }*/
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //outState.putStringArrayList("mListItems",new ArrayList<>(mListItems));
+        outState.putParcelableArrayList("mListItems",mListItems);
+    }
+
+
 }

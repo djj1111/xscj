@@ -2,7 +2,6 @@ package com.djj.xscj;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -32,22 +31,33 @@ public class MainActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.top_menu);
 
         bindView();
-        init();
+        init(savedInstanceState);
     }
 
-    private  void init(){
+    private  void init(Bundle savedInstanceState){
         FragmentTransaction mtransaction = getFragmentManager().beginTransaction();
-        f1 = new FirstFragment();
-        f2 = new SecondFragment();
-        f3 = new SecondFragment();
-        f4 = new FirstFragment();
+        if (savedInstanceState == null) {
+            f1 = new FirstFragment();
+            mtransaction.add(R.id.fragment_container,f1,"F_f1");
+            f2 = new SecondFragment();
+            mtransaction.add(R.id.fragment_container,f2,"F_f2");
+            f3 = new SecondFragment();
+            mtransaction.add(R.id.fragment_container,f3,"F_f3");
+            f4 = new FirstFragment();
+            mtransaction.add(R.id.fragment_container,f4,"F_f4");
+        } else {
+            f1 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f1");
+            f2 = (SecondFragment) getFragmentManager().getFragment(savedInstanceState,"F_f2");
+            f3 = (SecondFragment) getFragmentManager().getFragment(savedInstanceState,"F_f3");
+            f4 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f4");
+        }
         f1.setRemoveItemListener(new RemoveItemListener(){
             @Override
             public void removeitem(int direction,Object o) {
                 switch (direction){
-                    case 0:f2.add((String)o);
+                    case 0:f2.add(o);
                         break;
-                    case 1:f4.add((String)o);
+                    case 1:f4.add(o);
                         break;
                 }
 
@@ -57,9 +67,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             @Override
             public void removeitem(int direction,Object o) {
                 switch (direction){
-                    case 0:f3.add((String)o);
+                    case 0:f3.add(o);
                         break;
-                    case 1:f1.add((String)o);
+                    case 1:f1.add(o);
                         break;
                 }
             }
@@ -68,9 +78,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             @Override
             public void removeitem(int direction,Object o) {
                 switch (direction){
-                    case 0:f4.add((String)o);
+                    case 0:f4.add(o);
                         break;
-                    case 1:f2.add((String)o);
+                    case 1:f2.add(o);
                         break;
                 }
             }
@@ -79,20 +89,25 @@ public class MainActivity extends Activity implements View.OnClickListener{
             @Override
             public void removeitem(int direction,Object o) {
                 switch (direction){
-                    case 0:f1.add((String)o);
+                    case 0:f1.add(o);
                         break;
-                    case 1:f3.add((String)o);
+                    case 1:f3.add(o);
                         break;
                 }
             }
         });
-
-        mtransaction.add(R.id.fragment_container,f1);
-        mtransaction.add(R.id.fragment_container,f2);
-        mtransaction.add(R.id.fragment_container,f3);
-        mtransaction.add(R.id.fragment_container,f4);
-        //hideAllFragment(transaction);
+        hideAllFragment(mtransaction);
         mtransaction.commit();
+        if (savedInstanceState!=null){
+            top_menu_input.setSelected(savedInstanceState.getBoolean("top_menu_input"));
+            top_menu_do.setSelected(savedInstanceState.getBoolean("top_menu_do"));
+            top_menu_output.setSelected(savedInstanceState.getBoolean("top_menu_output"));
+            top_menu_setup.setSelected(savedInstanceState.getBoolean("top_menu_setup"));
+        }
+        if (top_menu_input.isSelected()) onClick(top_menu_input);
+        if (top_menu_do.isSelected()) onClick(top_menu_do);
+        if (top_menu_output.isSelected()) onClick(top_menu_output);
+        if (top_menu_setup.isSelected()) onClick(top_menu_setup);
     }
 
 
@@ -168,8 +183,30 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getFragmentManager().putFragment(outState,"F_f1",f1);
+        getFragmentManager().putFragment(outState,"F_f2",f2);
+        getFragmentManager().putFragment(outState,"F_f3",f3);
+        getFragmentManager().putFragment(outState,"F_f4",f4);
+        outState.putBoolean("top_menu_input",top_menu_input.isSelected());
+        outState.putBoolean("top_menu_do",top_menu_do.isSelected());
+        outState.putBoolean("top_menu_output",top_menu_output.isSelected());
+        outState.putBoolean("top_menu_setup",top_menu_setup.isSelected());
+        /*Bundle b_f1=f1.getArguments();
+        outState.putBundle("f1",b_f1);
+        Bundle b_f2=f2.getArguments();
+        outState.putBundle("f2",b_f2);
+        Bundle b_f3=f3.getArguments();
+        outState.putBundle("f3",b_f3);
+        Bundle b_f4=f4.getArguments();
+        outState.putBundle("f4",b_f4);*/
+        super.onSaveInstanceState(outState);
+
+    }
+
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 }
 
