@@ -27,8 +27,12 @@ public class TestTable implements Parcelable {
     private static int count = 0;
     @Column(name = "id", isId = true)
     private int id;
+    @Column(name = "mid")
+    private int mid;
     @Column(name = "inputdate")
     private String inputdate;
+    @Column(name = "user")
+    private String user;
     @Column(name = "num")
     private String num;
     @Column(name = "cnum")
@@ -63,23 +67,25 @@ public class TestTable implements Parcelable {
         in.readBooleanArray(b);*/
         serialsnum = in.readInt();
         id = in.readInt();
+        mid=in.readInt();
         filenums=in.readInt();
-        String s[] = new String[11];
+        String s[] = new String[12];
         in.readStringArray(s);
         /*isadd = b[0];
         isdelete = b[1];
         isupdate = b[2];*/
         inputdate=s[0];
-        num= s[1];
-        cnum=s[2];
-        name =s[3];
-        address = s[4];
-        cellphone = s[5];
-        phone=s[6];
-        year= s[7];
-        month= s[8];
-        money= s[9];
-        imei= s[10];
+        user=s[1];
+        num= s[2];
+        cnum=s[3];
+        name =s[4];
+        address = s[5];
+        cellphone = s[6];
+        phone=s[7];
+        year= s[8];
+        month= s[9];
+        money= s[10];
+        imei= s[11];
         filepath=in.createStringArrayList();
     }
 
@@ -197,8 +203,9 @@ public class TestTable implements Parcelable {
         //out.writeBooleanArray(b);
         out.writeInt(serialsnum);
         out.writeInt(id);
+        out.writeInt(mid);
         out.writeInt(filenums);
-        String s[] = new String[]{inputdate,num,cnum,name, address, cellphone,phone,year,month,money,imei};
+        String s[] = new String[]{inputdate,user,num,cnum,name, address, cellphone,phone,year,month,money,imei};
         out.writeStringArray(s);
         out.writeStringList(filepath);
     }
