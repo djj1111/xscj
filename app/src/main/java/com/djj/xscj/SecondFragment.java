@@ -1,6 +1,7 @@
 package com.djj.xscj;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -57,7 +58,18 @@ public class SecondFragment extends Fragment {
                 }
             }
         });
-
+        mSlideCutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("position",position);
+                bundle.putParcelable("ListTestTable", mListItems.get(position));
+                Intent intent=new Intent();
+                intent.putExtra("bundle", bundle);
+                intent.setClass(getActivity(),WorkViewPagerActivity.class);//跳转到加载界面
+                startActivityForResult(intent,10);
+            }
+        });
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mSlideCutListView);
 
@@ -85,7 +97,18 @@ public class SecondFragment extends Fragment {
         return view;
     }
 
-   /* private class GetDataTask extends AsyncTask<Void, Void, ArrayList> {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10) {
+            Bundle b=data.getExtras().getBundle("bundle");
+            int position=b.getInt("position");
+            ListTestTable t=b.getParcelable("ListTestTable");
+            mListItems.set(position,t);
+            mAdapter.notifyDataSetChanged();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    /* private class GetDataTask extends AsyncTask<Void, Void, ArrayList> {
 
         @Override
         protected ArrayList<ListTestTable> doInBackground(Void... params) {

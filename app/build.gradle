@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.djj.xscj"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -33,7 +33,9 @@ dependencies {
     compile 'com.handmark.pulltorefresh.library:PullToRefreshLibrary:2.1.1'
     compile(name: 'slidecutlistview', ext: 'aar')
     compile(name: 'jazzyviewpager', ext: 'aar')
+    compile(name: 'android.filetools', ext: 'aar')
     compile 'org.xutils:xutils:3.3.38'
     compile 'com.inthecheesefactory.thecheeselibrary:stated-fragment-support-v4:0.9.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 }

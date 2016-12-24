@@ -24,6 +24,9 @@ public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         mJazzy = v;
     }
+    public boolean addFragment(Fragment fragment){
+        return mFragments.add(fragment);
+    }
 
     public int getFragmentposition(Fragment fragment) {
         return mFragments.indexOf(fragment);

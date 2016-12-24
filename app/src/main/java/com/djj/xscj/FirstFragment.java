@@ -92,6 +92,8 @@ public class FirstFragment extends Fragment {
             }
         });
 
+
+
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mSlideCutListView);
         if (savedInstanceState!=null){
@@ -140,6 +142,8 @@ public class FirstFragment extends Fragment {
             String    str    =    formatter.format(curDate);
             testTable.setInputdate(str);
             listTestTablel.add(testTable);
+            testTable=new TestTable();
+            listTestTablel.add(testTable);
             mListItems.add(0,listTestTablel);
             mAdapter.notifyDataSetChanged();
 
@@ -166,7 +170,7 @@ public class FirstFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-        menu.setHeaderTitle("Item: " + mListItems.get(info.position));
+        menu.setHeaderTitle("Item: " + mListItems.get(info.position-1));
         //ListView
         menu.add("Item 1");
         menu.add("Item 2");

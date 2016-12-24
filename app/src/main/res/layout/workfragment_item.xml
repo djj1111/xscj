@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="导入日期："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvinputdate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="left|center_vertical"
+        android:layout_marginLeft="10dp"
+        android:text="册本缟号："
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:fitsSystemWindows="false" />
+    <TextView
+        android:id="@+id/tvcnum"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical"
+        android:layout_margin="2dp"
+        android:text="我操"
+        android:textSize="18sp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="表卡编号："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvnum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="用户姓名："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvname"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="用户地址："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvaddress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="手机号码："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvcellphone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="电话号码："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvphone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="开帐年份："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvyear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="开帐月份："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvmonth"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="欠费金额："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvmoney"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="文件数量："
+            android:textSize="18sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:fitsSystemWindows="false" />
+        <TextView
+            android:id="@+id/tvfilenums"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_margin="2dp"
+            android:text="我操"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:measureWithLargestChild="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/button_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击拍照"
+            android:layout_margin="30dp">
+        </Button>
+
+        <Button
+            android:id="@+id/button_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="长按录音">
+        </Button>
+
+
+    </LinearLayout>
+
+</LinearLayout>

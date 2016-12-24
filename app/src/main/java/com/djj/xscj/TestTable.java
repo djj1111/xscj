@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
+import java.util.ArrayList;
+
 /**
  * Created by djj on 2016/11/13.
  */
@@ -29,10 +31,14 @@ public class TestTable implements Parcelable {
     private String inputdate;
     @Column(name = "num")
     private String num;
+    @Column(name = "cnum")
+    private String cnum;
     @Column(name = "name")
     private String name;
     @Column(name = "address")
     private String address;
+    @Column(name = "cellphone")
+    private String cellphone;
     @Column(name = "phone")
     private String phone;
     @Column(name = "year")
@@ -41,10 +47,15 @@ public class TestTable implements Parcelable {
     private String month;
     @Column(name = "money")
     private String money;
-    @Column(name = "filepath")
-    private String filepath;
+    /*@Column(name = "filepath")
+    private String filepath;*/
+    @Column(name = "filenums")
+    private int filenums;
+    @Column(name = "imei")
+    private String imei;
     //private boolean isadd = true, isdelete = false, isupdate = false;
     private int serialsnum;
+    ArrayList<String> filepath=new ArrayList<>();
 
     private TestTable(Parcel in) {
         //count++;
@@ -52,20 +63,24 @@ public class TestTable implements Parcelable {
         in.readBooleanArray(b);*/
         serialsnum = in.readInt();
         id = in.readInt();
-        String s[] = new String[9];
+        filenums=in.readInt();
+        String s[] = new String[11];
         in.readStringArray(s);
         /*isadd = b[0];
         isdelete = b[1];
         isupdate = b[2];*/
         inputdate=s[0];
         num= s[1];
-        name =s[2];
-        address = s[3];
-        phone = s[4];
-        year= s[5];
-        month= s[6];
-        money= s[7];
-        filepath= s[8];
+        cnum=s[2];
+        name =s[3];
+        address = s[4];
+        cellphone = s[5];
+        phone=s[6];
+        year= s[7];
+        month= s[8];
+        money= s[9];
+        imei= s[10];
+        filepath=in.createStringArrayList();
     }
 
     public TestTable() {
@@ -79,6 +94,16 @@ public class TestTable implements Parcelable {
     //}
     public int getSerialsnum() {
         return serialsnum;
+    }
+    public int getFilenums(){
+        return filenums;
+    }
+    public String getNum(){
+        return num;
+    }
+    public void addfilepath(String s){
+        filepath.add(s);
+            filenums+=1;
     }
 
     /*public boolean getIsadd() {
@@ -172,7 +197,9 @@ public class TestTable implements Parcelable {
         //out.writeBooleanArray(b);
         out.writeInt(serialsnum);
         out.writeInt(id);
-        String s[] = new String[]{inputdate,num,name, address, phone,year,month,money,filepath};
+        out.writeInt(filenums);
+        String s[] = new String[]{inputdate,num,cnum,name, address, cellphone,phone,year,month,money,imei};
         out.writeStringArray(s);
+        out.writeStringList(filepath);
     }
 }

@@ -11,8 +11,15 @@ import org.xutils.x;
 
 public class MyApplication extends Application {
     private DbManager.DaoConfig daoConfig;
+    private String username,password;
     public DbManager.DaoConfig getDaoConfig() {
         return daoConfig;
+    }
+    public String getUsername(){
+        return username;
+    }
+    public void setUsername(String username){
+        this.username=username;
     }
     @Override
     public void onCreate() {

@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by djj on 2016/12/21.
@@ -33,13 +32,31 @@ public class ListTestTable extends Object implements Parcelable {
     public boolean addall(ArrayList<TestTable> t){
         return mListTestTable.addAll(t);
     }
-    protected ListTestTable(Parcel in) {
-        TestTable[] temp;
+    private ListTestTable(Parcel in) {
+        /*TestTable[] temp;
         Parcelable[] parcelables = in.readParcelableArray(TestTable.class.getClassLoader());
         if (parcelables != null) {
             temp = Arrays.copyOf(parcelables, parcelables.length, TestTable[].class);
             mListTestTable=(ArrayList<TestTable>) Arrays.asList(temp);
-        }
+        }*/
+        ArrayList<TestTable> parts = new ArrayList<TestTable>();
+        in.readTypedList(parts, TestTable.CREATOR);
+        mListTestTable=parts;
+        /*DetectedFace face = new DetectedFace();
+
+        face.facePart = facePart;
+        face.nosePart = nosePart;
+        face.eyePart = eyePart;
+        face.eyebrowPart = eyebrowPart;
+        face.mouthPart = mouthPart;
+
+        face.parts = parts;
+
+        return face;*/
+
+    }
+    public void setListTestTable(ArrayList<TestTable> mListTestTable){
+        this.mListTestTable=mListTestTable;
     }
 
     public int describeContents() {
@@ -47,17 +64,27 @@ public class ListTestTable extends Object implements Parcelable {
     }
 
     public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelableArray(mListTestTable.toArray(new TestTable[mListTestTable.size()]),flags);
+        //out.writeParcelableArray(mListTestTable.toArray(new TestTable[mListTestTable.size()]),flags);
+        out.writeTypedList(mListTestTable);
+    }
+    public ArrayList<TestTable> getListTestTable(){
+        return mListTestTable;
     }
 
     @Override
     public String toString() {
         //return super.toString();
         String s;
+        int filecoun=0;
         if (mListTestTable.isEmpty()) {
             s="无内容";
         }else {
-            s=mListTestTable.get(0).getInputdate()+"导入，共"+mListTestTable.size()+"条";
+            for(TestTable t : mListTestTable){
+                if(t.getFilenums()>0){
+                    filecoun++;
+                }
+            }
+            s=mListTestTable.get(0).getInputdate()+"导入\n已完成"+filecoun+"条/共"+mListTestTable.size()+"条";
         }
         return s;
     }
