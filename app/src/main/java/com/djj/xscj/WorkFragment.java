@@ -224,11 +224,11 @@ public class WorkFragment extends Fragment {
         //file.separator 目录分隔符
         String filePath = mediaStorageDir.getPath() + File.separator;
         if (fileType == TYPE_FILE_IMAGE) {
-            filePath += (mTestTable.getNum() + timeStamp + ".jpg");
+            filePath += (mTestTable.getNum()+"_"+ timeStamp + ".jpg");
         } else if (fileType == TYPE_FILE_VEDIO) {
-            filePath += (mTestTable.getNum() + timeStamp + ".mp4");
+            filePath += (mTestTable.getNum()+"_" + timeStamp + ".mp4");
         } else if (fileType == TYPE_FILE_AUDIO) {
-            filePath += (mTestTable.getNum() + timeStamp + ".aac");
+            filePath += (mTestTable.getNum()+"_" + timeStamp + ".aac");
         } else {
             return null;
         }
