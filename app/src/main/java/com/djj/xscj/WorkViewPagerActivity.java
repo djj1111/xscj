@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.djj.jazzyviewpager.JazzyViewPager;
@@ -26,7 +27,10 @@ public class WorkViewPagerActivity extends FragmentActivity {
     private DbManager db;
     private MyFragmentStatePagerAdapter mFragmentStatePagerAdapter;
     private JazzyViewPager mViewPager;
+    //上一级控件的位置
     private int position;
+    private int total;
+    private TextView textView;
 
 
     /*private void update() {
@@ -101,21 +105,21 @@ public class WorkViewPagerActivity extends FragmentActivity {
         setContentView(R.layout.activity_dowork);
         x.view().inject(this);
         mViewPager = (JazzyViewPager) findViewById(R.id.viewpager);
+        textView=(TextView) findViewById(R.id.tv_dowork_top);
         mViewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
         //db_init();
         mFragmentStatePagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager(), mViewPager);
         mViewPager.setAdapter(mFragmentStatePagerAdapter);
         mViewPager.setPageMargin(30);
         init();
-        /*mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        total=mtablelist.size();
+        textView.setText("第"+(mViewPager.getCurrentItem()+1)+"页/共"+total+"页");
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                View view = mViewPager.getFocusedChild();
-                MyFragment fragment = (MyFragment) mFragmentStatePagerAdapter.getCurrentFragmentbyrootview(view);
-                int position1 = mFragmentStatePagerAdapter.getFramentposition(fragment);
-                Toast.makeText(MyFragmentActivity.this, "onPageSelected选中了" + position1, Toast.LENGTH_SHORT).show();
+                textView.setText("第"+(position+1)+"页/共"+total+"页");
             }
-        });*/
+        });
         /*mViewPager.setPageTransformer(true,new ViewPager.PageTransformer(){
             @Override
             public void transformPage(View page, float position) {
@@ -128,12 +132,12 @@ public class WorkViewPagerActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         ArrayList<TestTable> testTables=mtablelist.getListTestTable();
-        Log.i("safasfasdfasdas",mtablelist.toString());
+        //Log.i("safasfasdfasdas",mtablelist.toString());
         for (Fragment fragment : mFragmentStatePagerAdapter.getFragments()) {
             TestTable t = ((WorkFragment) fragment).getArguments().getParcelable("mTestTable");
-            Log.i("asdfadfaasdf","tSerialsnum="+t.toString());
+            //Log.i("asdfadfaasdf","tSerialsnum="+t.toString());
             for (int pos = 0; pos < testTables.size(); pos++) {
-                Log.i("asdfadfaasdf","pos"+pos);
+                //Log.i("asdfadfaasdf","pos"+pos);
 
                 if (testTables.get(pos).getSerialsnum() == t.getSerialsnum()){
                     testTables.set(pos, t);
@@ -168,7 +172,7 @@ public class WorkViewPagerActivity extends FragmentActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         mtablelist= bundle.getParcelable("ListTestTable");
-        db = x.getDb(((MyApplication)getApplication()).getDaoConfig());
+        //db = x.getDb(((MyApplication)getApplication()).getDaoConfig());
         /*try {
             mtablelist = (ArrayList<TestTable>) db.findAll(TestTable.class);
             if (tablelist == null) tablelist = new ArrayList<>();

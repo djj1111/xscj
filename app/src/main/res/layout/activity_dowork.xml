@@ -4,6 +4,13 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="4dip" >
+    <TextView
+        android:id="@+id/tv_dowork_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center_horizontal" />
+
 
     <com.djj.jazzyviewpager.JazzyViewPager
         android:id="@+id/viewpager"

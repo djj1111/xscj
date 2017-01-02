@@ -21,6 +21,13 @@ public class MyApplication extends Application {
     public void setUsername(String username){
         this.username=username;
     }
+    public String getPassword(){
+        return password;
+    }
+    public void setPassword(String s){
+        password=s;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -48,4 +55,5 @@ public class MyApplication extends Application {
                     }
                 });
     }
+
 }

@@ -21,7 +21,7 @@
             android:drawableTop="@android:drawable/ic_menu_more"
             android:gravity="center"
             android:textColor="@drawable/top_menu_text_color"
-            android:text="下载"/>
+            android:text="现收催缴"/>
 
         <TextView
             android:id="@+id/topmenu_do"
@@ -33,7 +33,7 @@
             android:drawableTop="@android:drawable/ic_menu_slideshow"
             android:gravity="center"
             android:textColor="@drawable/top_menu_text_color"
-            android:text="任务"/>
+            android:text="开发中…"/>
 
         <TextView
             android:id="@+id/topmenu_output"
@@ -45,7 +45,7 @@
             android:drawableTop="@android:drawable/ic_menu_upload"
             android:gravity="center"
             android:textColor="@drawable/top_menu_text_color"
-            android:text="上传"/>
+            android:text="开发中…"/>
 
         <TextView
             android:id="@+id/topmenu_setup"

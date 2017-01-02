@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.djj.xscj.FirstFragment.RemoveItemListener;
-
 public class MainActivity extends Activity implements View.OnClickListener{
     private TextView top_menu_input;
     private TextView top_menu_do;
@@ -19,7 +17,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
    //private FrameLayout ly_content;
 
     private FirstFragment f1,f4;
-    private SecondFragment f2,f3;
+    private ThirdFragment f2,f3;
     public String getIp(){
         return mIp;
     }
@@ -39,63 +37,63 @@ public class MainActivity extends Activity implements View.OnClickListener{
         if (savedInstanceState == null) {
             f1 = new FirstFragment();
             mtransaction.add(R.id.fragment_container,f1,"F_f1");
-            f2 = new SecondFragment();
+            f2 = new ThirdFragment();
             mtransaction.add(R.id.fragment_container,f2,"F_f2");
-            f3 = new SecondFragment();
+            f3 = new ThirdFragment();
             mtransaction.add(R.id.fragment_container,f3,"F_f3");
             f4 = new FirstFragment();
             mtransaction.add(R.id.fragment_container,f4,"F_f4");
         } else {
             f1 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f1");
-            f2 = (SecondFragment) getFragmentManager().getFragment(savedInstanceState,"F_f2");
-            f3 = (SecondFragment) getFragmentManager().getFragment(savedInstanceState,"F_f3");
+            f2 = (ThirdFragment) getFragmentManager().getFragment(savedInstanceState,"F_f2");
+            f3 = (ThirdFragment) getFragmentManager().getFragment(savedInstanceState,"F_f3");
             f4 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f4");
         }
-        f1.setRemoveItemListener(new RemoveItemListener(){
-            @Override
-            public void removeitem(int direction,Object o) {
-                switch (direction){
-                    case 0:f2.add(o);
-                        break;
-                    case 1:f4.add(o);
-                        break;
-                }
-
-            }
-        });
-        f2.setRemoveItemListener(new SecondFragment.RemoveItemListener(){
-            @Override
-            public void removeitem(int direction,Object o) {
-                switch (direction){
-                    case 0:f3.add(o);
-                        break;
-                    case 1:f1.add(o);
-                        break;
-                }
-            }
-        });
-        f3.setRemoveItemListener(new SecondFragment.RemoveItemListener(){
-            @Override
-            public void removeitem(int direction,Object o) {
-                switch (direction){
-                    case 0:f4.add(o);
-                        break;
-                    case 1:f2.add(o);
-                        break;
-                }
-            }
-        });
-        f4.setRemoveItemListener(new RemoveItemListener(){
-            @Override
-            public void removeitem(int direction,Object o) {
-                switch (direction){
-                    case 0:f1.add(o);
-                        break;
-                    case 1:f3.add(o);
-                        break;
-                }
-            }
-        });
+//        f1.setRemoveItemListener(new RemoveItemListener(){
+//            @Override
+//            public void removeitem(int direction,Object o) {
+//                switch (direction){
+//                    case 0:f2.add(o);
+//                        break;
+//                    case 1:f4.add(o);
+//                        break;
+//                }
+//
+//            }
+//        });
+//        f2.setRemoveItemListener(new SecondFragment.RemoveItemListener(){
+//            @Override
+//            public void removeitem(int direction,Object o) {
+//                switch (direction){
+//                    case 0:f3.add(o);
+//                        break;
+//                    case 1:f1.add(o);
+//                        break;
+//                }
+//            }
+//        });
+//        f3.setRemoveItemListener(new SecondFragment.RemoveItemListener(){
+//            @Override
+//            public void removeitem(int direction,Object o) {
+//                switch (direction){
+//                    case 0:f4.add(o);
+//                        break;
+//                    case 1:f2.add(o);
+//                        break;
+//                }
+//            }
+//        });
+//        f4.setRemoveItemListener(new RemoveItemListener(){
+//            @Override
+//            public void removeitem(int direction,Object o) {
+//                switch (direction){
+//                    case 0:f1.add(o);
+//                        break;
+//                    case 1:f3.add(o);
+//                        break;
+//                }
+//            }
+//        });
         hideAllFragment(mtransaction);
         mtransaction.commit();
         if (savedInstanceState!=null){

@@ -1,19 +1,13 @@
 package com.djj.xscj;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.MediaRecorder;
-import android.media.SoundPool;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,8 +42,8 @@ public class WorkFragment extends Fragment {
 
     private TestTable mTestTable;
     private String photofile, audiofile;
-    private SoundPool mPool;
-    private int VoicID;
+    //private SoundPool mPool;
+    //private int VoicID;
     private Drawable backgroundcolor;
     //private View item;
     //private EditText textid, texttext, textip, texttime;
@@ -103,6 +97,16 @@ public class WorkFragment extends Fragment {
         tmoney = (TextView) item.findViewById(R.id.tvmoney);
         tfilenums = (TextView) item.findViewById(R.id.tvfilenums);
         tinputdate.setText(mTestTable.getInputdate());
+        tnum.setText(mTestTable.getNum());
+        tcnum.setText(mTestTable.getCnum());
+        tname.setText(mTestTable.getName());
+        taddress.setText(mTestTable.getAddress());
+        tcellphone.setText(mTestTable.getCellphone());
+        tphone.setText(mTestTable.getPhone());
+        tyear.setText(mTestTable.getYear());
+        tmonth.setText(mTestTable.getMonth());
+        tmoney.setText(mTestTable.getMoney());
+        tfilenums.setText(String.valueOf(mTestTable.getFilenums()));
         bphoto = (Button) item.findViewById(R.id.button_photo);
         brecord = (Button) item.findViewById(R.id.button_record);
         backgroundcolor = brecord.getBackground();
@@ -159,15 +163,15 @@ public class WorkFragment extends Fragment {
                 return true;
             }
         });
-        VoicID = initSoundPool();
+        //VoicID = initSoundPool();
 
         return item;
     }
 
-    private int initSoundPool() {
-        /**
+    /*private int initSoundPool() {
+        *//**
          * 21版本后，SoundPool的创建发生很大改变
-         */
+         *//*
         //判断系统sdk版本，如果版本超过21，调用第一种
         if (Build.VERSION.SDK_INT >= 21) {
             SoundPool.Builder builder = new SoundPool.Builder();
@@ -182,7 +186,7 @@ public class WorkFragment extends Fragment {
         }
         //load的返回值是一个int类的值：音频的id，在SoundPool的play()方法中加入这个id就能播放这个音频
         return mPool.load(getContext(), R.raw.reset_sound, 1);
-    }
+    }*/
 
     private void getphoto() {
         Intent intent = new Intent();
@@ -217,8 +221,8 @@ public class WorkFragment extends Fragment {
 
     @Nullable
     private String getFilePath(File mediaStorageDir, int fileType) {
-        TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        String imei = telephonyManager.getDeviceId();
+//        TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+//        String imei = telephonyManager.getDeviceId();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                 .format(new Date());
         //file.separator 目录分隔符
@@ -258,7 +262,7 @@ public class WorkFragment extends Fragment {
             e.printStackTrace();
             return null;
         }
-        mPool.play(VoicID, 1, 1, 0, 0, 1);
+        //mPool.play(VoicID, 1, 1, 0, 0, 1);
         brecord.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
         return file.getAbsolutePath();
     }

@@ -2,46 +2,51 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:background="@drawable/rectangle">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/left_view"
-            android:layout_gravity="left"
+            android:layout_gravity="left|center_vertical"
             android:layout_margin="15dip"
-            android:text="继续向右滑"/>
+            android:text="继续向右滑上传任务"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/right_view"
-            android:layout_gravity="right"
+            android:layout_gravity="right|center_vertical"
             android:layout_margin="15dip"
-            android:text="继续向左滑"/>
+            android:textSize="18sp"
+            android:text="继续向左滑删除任务"/>
     </FrameLayout>
 
 
     <FrameLayout
         android:id="@+id/front_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        >
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray">
+            android:background="@drawable/rectangle">
 
             <TextView
                 android:id="@+id/list_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dip"
-                android:text="wocao" />
+                android:text="" />
         </FrameLayout>
     </FrameLayout>
 

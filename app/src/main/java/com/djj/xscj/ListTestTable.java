@@ -29,6 +29,9 @@ public class ListTestTable extends Object implements Parcelable {
     public boolean revome(TestTable t){
         return mListTestTable.remove(t);
     }
+    public int size(){
+        return mListTestTable.size();
+    }
     public boolean addall(ArrayList<TestTable> t){
         return mListTestTable.addAll(t);
     }
@@ -70,21 +73,25 @@ public class ListTestTable extends Object implements Parcelable {
     public ArrayList<TestTable> getListTestTable(){
         return mListTestTable;
     }
+    public int gethasfileitemnums(){
+        int filecoun=0;
+        for(TestTable t : mListTestTable){
+            if(t.getFilenums()>0){
+                filecoun++;
+            }
+        }
+        return filecoun;
+    }
 
     @Override
     public String toString() {
         //return super.toString();
         String s;
-        int filecoun=0;
+
         if (mListTestTable.isEmpty()) {
             s="无内容";
         }else {
-            for(TestTable t : mListTestTable){
-                if(t.getFilenums()>0){
-                    filecoun++;
-                }
-            }
-            s=mListTestTable.get(0).getInputdate()+"导入\n已完成"+filecoun+"条/共"+mListTestTable.size()+"条";
+            s=mListTestTable.get(0).getInputdate()+"导入\n已完成"+gethasfileitemnums()+"条/共"+mListTestTable.size()+"条";
         }
         return s;
     }
