@@ -11,7 +11,8 @@ import org.xutils.x;
 
 public class MyApplication extends Application {
     private DbManager.DaoConfig daoConfig;
-    private String username,password;
+    private String username, password, ip;
+    private int port;
     public DbManager.DaoConfig getDaoConfig() {
         return daoConfig;
     }
@@ -27,6 +28,24 @@ public class MyApplication extends Application {
     public void setPassword(String s){
         password=s;
     }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String s) {
+        this.ip = s;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int s) {
+        port = s;
+    }
+
+
 
     @Override
     public void onCreate() {

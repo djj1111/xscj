@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,14 +42,16 @@ import java.util.ArrayList;
  */
 
 public class FirstFragment extends Fragment {
+    private final String appname = "xscj";
     private MyPullToRefreshListView mPullToRefreshListView;
     private SlideCutListView mSlideCutListView;
     private ArrayAdapter<ListTestTable> mAdapter;
     private ArrayList<ListTestTable> mListItems;
-    private String username = "39004", password = "39004", ip = "10.0.0.6";
-    private int port = 12702;
-    private final String appname = "xscj";
+    private String username, password, ip;
+    private int port;
     private DbManager db;
+    private RemoveItemListener mRemoveItemListener;
+
     public FirstFragment() {
     }
 
@@ -58,6 +59,10 @@ public class FirstFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         db = x.getDb(((MyApplication) getActivity().getApplication()).getDaoConfig());
+        username = ((MyApplication) getActivity().getApplication()).getUsername();
+        password = ((MyApplication) getActivity().getApplication()).getPassword();
+        ip = ((MyApplication) getActivity().getApplication()).getIp();
+        port = ((MyApplication) getActivity().getApplication()).getPort();
         refresh();
         mAdapter.notifyDataSetChanged();
     }
@@ -97,30 +102,17 @@ public class FirstFragment extends Fragment {
         mSlideCutListView.setRemoveListener(new SlideCutListView.RemoveListener() {
             @Override
             public void removeItem(SlideCutListView.RemoveDirection direction, int position) {
-                //mAdapter.remove(mAdapter.getItem(position-1));
-                //Log.d("asdfasfdasfasdfasd",":::"+Thread.currentThread().getId()+"    pso="+position);
-
-
-                //mAdapter.notifyDataSetChanged();
                 switch (direction) {
                     case RIGHT:
-                        //mRemoveItemListener.removeitem(0, mListItems.remove(position - 1));
-
                         Intent intent_upload = new Intent();
                         intent_upload.putExtra("type","正在上传任务");
                         intent_upload.setClass(getActivity(), UpLoadingActivity.class);//跳转到加载界面
                         startActivity(intent_upload);
                         new uploadDataTask().execute(mListItems.get(position - 1));
-                        //mAdapter.notifyDataSetChanged();
-                        //Toast.makeText(getActivity(), "向右删除  " + position, Toast.LENGTH_SHORT).show();
                         break;
                     case LEFT:
-                       /* mRemoveItemListener.removeitem(1, mListItems.remove(position - 1));
-                        mAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), "向左删除  " + position, Toast.LENGTH_SHORT).show();*/
                         dialog(position-1);
                         break;
-
                     default:
                         break;
                 }
@@ -186,80 +178,16 @@ public class FirstFragment extends Fragment {
                         FilepPathTable filepPathTable = new FilepPathTable();
                         filepPathTable.setmId(table.getid());
                         filepPathTable.setFilepath(s);
-                        Log.i("afadasdfasdf",filepPathTable.toString());
                         filepPathTables.add(filepPathTable);
                     }
                 }
                 db.save(filepPathTables);
-                //Log.i("asfasdfasfasf","save="+);//?
             } catch (DbException e) {
                 e.printStackTrace();
             }
-
             mAdapter.notifyDataSetChanged();
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private class GetDataTask extends AsyncTask<Void, Void, ArrayList> {
-
-        @Override
-        protected ArrayList<ListTestTable> doInBackground(Void... params) {
-            downloaddata();
-            return mListItems;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList result) {
-            /*ListTestTable listTestTablel = new ListTestTable();
-            TestTable testTable = new TestTable();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日hh时mm分ss秒");
-            Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-            String str = formatter.format(curDate);
-            testTable.setInputdate(str);
-            listTestTablel.add(testTable);
-            testTable = new TestTable();
-            listTestTablel.add(testTable);
-            mListItems.add(0, listTestTablel);*/
-            mAdapter.notifyDataSetChanged();
-
-            // Call onRefreshComplete when the list has been refreshed.
-            mPullToRefreshListView.onRefreshComplete();
-
-            super.onPostExecute(result);
-        }
-    }
-
-    private class uploadDataTask extends AsyncTask<ListTestTable, Void, ArrayList> {
-
-        @Override
-        protected ArrayList<ListTestTable> doInBackground(ListTestTable... params) {
-            uploaddata(params[0]);
-            return mListItems;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList result) {
-                    UpLoadingActivity.uploadactivity.finish();
-            mAdapter.notifyDataSetChanged();
-            super.onPostExecute(result);
-        }
-    }
-
-    private class cancelDataTask extends AsyncTask<ListTestTable, Void, ArrayList> {
-
-        @Override
-        protected ArrayList<ListTestTable> doInBackground(ListTestTable... params) {
-            canceldata(params[0]);
-            return mListItems;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList result) {
-                UpLoadingActivity.uploadactivity.finish();
-            mAdapter.notifyDataSetChanged();
-            super.onPostExecute(result);
-        }
     }
 
     /*@Override
@@ -309,7 +237,6 @@ public class FirstFragment extends Fragment {
                         table.setMonth(in.readUTF());
                         table.setMoney(in.readUTF());
                         if (db.selector(TestTable.class).where("id", "=", table.getid()).findFirst() == null) {
-                            //Log.d("adsfasdfa","name="+table.getName()+"add="+table.getAddress()+"phone="+table.getPhone());
                             table.setImei(imei);
                             db.save(table);
                             count++;
@@ -377,19 +304,12 @@ public class FirstFragment extends Fragment {
 
     private boolean refresh() {
         try {
-            //Log.d("asdfasdfafdafd","refresh start");
             ArrayList<TestTable> res = (ArrayList<TestTable>) db.selector(TestTable.class).where("user", "=", username).orderBy("inputdate").findAll();
             //ArrayList<ListTestTable> temp_list = new ArrayList<>();
             mListItems.clear();
             if (res.isEmpty()) {
                 return true;
             }
-            /*else{
-                for(TestTable t:res){
-                    Log.d("asdfasdfafdafd","id="+t.getid()+t.getInputdate());
-                }
-            }*/
-
             String inputtime = res.get(0).getInputdate();
             ListTestTable listTestTable = new ListTestTable();
             for (TestTable table : res) {
@@ -397,26 +317,18 @@ public class FirstFragment extends Fragment {
                     mListItems.add(listTestTable);
                     inputtime = table.getInputdate();
                     listTestTable = new ListTestTable();
-                    //listTestTable.add(table);
                 }
                 table.setFilenums(0);
+                //注意findall不返回NULL，findfirst可返回NULL
                 ArrayList<FilepPathTable> filepPathTables = (ArrayList<FilepPathTable>) db.selector(FilepPathTable.class).where("mid", "=", table.getid()).findAll();
                 if (!filepPathTables.isEmpty()) {
-
                     for (FilepPathTable pathTable : filepPathTables){
                         table.addfilepath(pathTable.getFilepath());
-                        Log.i("asfasdfasfasf",pathTable.getFilepath());
                     }
-
-
-                }else{
-                    Log.i("asfasdfasfasf",""+null);
                 }
                 listTestTable.add(table);
-
             }
             mListItems.add(listTestTable);
-            //mListItems = temp_list;
             return true;
         } catch (DbException e) {
             e.printStackTrace();
@@ -472,14 +384,12 @@ public class FirstFragment extends Fragment {
                         out.flush();
                         ArrayList<File> files = new ArrayList<>();
                         for (int i = 0; i < filenums; i++) {
-                            Log.e("asdfasdfasdfaafd", table.getfilepath().get(i));
                             File file = new File(table.getfilepath().get(i));
                             if (!file.exists()) {
                                 Toast.makeText(getActivity(), "没有找到文件", Toast.LENGTH_SHORT).show();
                                 return -1;
                             }
                             String[] path = file.getAbsolutePath().split(File.separator);
-                            Log.e("asdfasdfasdfaafd", path[path.length - 1]);
                             out.writeUTF(path[path.length - 1]);
                             out.flush();
                             int filelength = (int) file.length();
@@ -605,7 +515,6 @@ public class FirstFragment extends Fragment {
                         for (TestTable table : uploadlist) {
                             int filenums = table.getFilenums();
                             for (int i = 0; i < filenums; i++) {
-                                //Log.e("asdfasdfasdfaafd", table.getfilepath().get(i));
                                 File file = new File(table.getfilepath().get(i));
                                 if (file.exists()) {
                                     file.delete();
@@ -715,6 +624,14 @@ public class FirstFragment extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
+    public void add(Object t) {
+        mListItems.add((ListTestTable) t);
+    }
+
+    public void setRemoveItemListener(RemoveItemListener listener) {
+        mRemoveItemListener = listener;
+    }
+
    /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem disableItem = menu.findItem(MENU_DISABLE_SCROLL);
@@ -754,18 +671,48 @@ public class FirstFragment extends Fragment {
 
     }*/
 
-    public void add(Object t) {
-        mListItems.add((ListTestTable) t);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //outState.putStringArrayList("mListItems",new ArrayList<>(mListItems));
+        outState.putParcelableArrayList("mListItems", mListItems);
     }
 
     public interface RemoveItemListener {
         void removeitem(int direction, Object o);
     }
 
-    private RemoveItemListener mRemoveItemListener;
+    private class GetDataTask extends AsyncTask<Void, Void, ArrayList> {
 
-    public void setRemoveItemListener(RemoveItemListener listener) {
-        mRemoveItemListener = listener;
+        @Override
+        protected ArrayList<ListTestTable> doInBackground(Void... params) {
+            downloaddata();
+            return mListItems;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList result) {
+            mAdapter.notifyDataSetChanged();
+            // Call onRefreshComplete when the list has been refreshed.
+            mPullToRefreshListView.onRefreshComplete();
+            super.onPostExecute(result);
+        }
+    }
+
+    private class uploadDataTask extends AsyncTask<ListTestTable, Void, ArrayList> {
+
+        @Override
+        protected ArrayList<ListTestTable> doInBackground(ListTestTable... params) {
+            uploaddata(params[0]);
+            return mListItems;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList result) {
+            UpLoadingActivity.uploadactivity.finish();
+            mAdapter.notifyDataSetChanged();
+            super.onPostExecute(result);
+        }
     }
 
    /* @Override
@@ -790,11 +737,20 @@ public class FirstFragment extends Fragment {
 
     }*/
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //outState.putStringArrayList("mListItems",new ArrayList<>(mListItems));
-        outState.putParcelableArrayList("mListItems", mListItems);
+    private class cancelDataTask extends AsyncTask<ListTestTable, Void, ArrayList> {
+
+        @Override
+        protected ArrayList<ListTestTable> doInBackground(ListTestTable... params) {
+            canceldata(params[0]);
+            return mListItems;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList result) {
+            UpLoadingActivity.uploadactivity.finish();
+            mAdapter.notifyDataSetChanged();
+            super.onPostExecute(result);
+        }
     }
 
 

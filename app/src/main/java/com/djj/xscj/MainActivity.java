@@ -2,6 +2,7 @@ package com.djj.xscj;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -16,7 +17,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
    //private FrameLayout ly_content;
 
-    private FirstFragment f1,f4;
+    private FirstFragment f1;
+    private FourthFragment f4;
     private ThirdFragment f2,f3;
     public String getIp(){
         return mIp;
@@ -41,13 +43,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
             mtransaction.add(R.id.fragment_container,f2,"F_f2");
             f3 = new ThirdFragment();
             mtransaction.add(R.id.fragment_container,f3,"F_f3");
-            f4 = new FirstFragment();
+            f4 = new FourthFragment();
             mtransaction.add(R.id.fragment_container,f4,"F_f4");
         } else {
             f1 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f1");
             f2 = (ThirdFragment) getFragmentManager().getFragment(savedInstanceState,"F_f2");
             f3 = (ThirdFragment) getFragmentManager().getFragment(savedInstanceState,"F_f3");
-            f4 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f4");
+            f4 = (FourthFragment) getFragmentManager().getFragment(savedInstanceState, "F_f4");
         }
 //        f1.setRemoveItemListener(new RemoveItemListener(){
 //            @Override
@@ -101,6 +103,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
             top_menu_do.setSelected(savedInstanceState.getBoolean("top_menu_do"));
             top_menu_output.setSelected(savedInstanceState.getBoolean("top_menu_output"));
             top_menu_setup.setSelected(savedInstanceState.getBoolean("top_menu_setup"));
+        } else {
+            Intent intent = this.getIntent();
+            if (intent.getBooleanExtra("isfirst", true)) {
+                top_menu_setup.setSelected(true);
+            } else {
+                top_menu_input.setSelected(true);
+            }
         }
         if (top_menu_input.isSelected()) onClick(top_menu_input);
         if (top_menu_do.isSelected()) onClick(top_menu_do);

@@ -99,7 +99,7 @@ public class WorkViewPagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState!=null) {
             mtablelist=savedInstanceState.getParcelable("mtablelist");
-
+            position = savedInstanceState.getInt("position");
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_dowork);
@@ -132,18 +132,12 @@ public class WorkViewPagerActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         ArrayList<TestTable> testTables=mtablelist.getListTestTable();
-        //Log.i("safasfasdfasdas",mtablelist.toString());
         for (Fragment fragment : mFragmentStatePagerAdapter.getFragments()) {
             TestTable t = ((WorkFragment) fragment).getArguments().getParcelable("mTestTable");
-            //Log.i("asdfadfaasdf","tSerialsnum="+t.toString());
             for (int pos = 0; pos < testTables.size(); pos++) {
-                //Log.i("asdfadfaasdf","pos"+pos);
-
                 if (testTables.get(pos).getSerialsnum() == t.getSerialsnum()){
                     testTables.set(pos, t);
-
                 }
-
             }
         }
         mtablelist.setListTestTable(testTables);
@@ -154,6 +148,7 @@ public class WorkViewPagerActivity extends FragmentActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("mtablelist",mtablelist);
+        outState.putInt("position", position);
     }
 
     @Override

@@ -9,8 +9,7 @@ import org.xutils.db.annotation.Table;
 
 @Table(name = "FilepPathTable", onCreated = "CREATE INDEX index_mid ON FilepPathTable(mid)")
 public class FilepPathTable {
-   /* @Column(name = "id",isId = true)
-    private int id;*/
+
    @Column(name = "filepath",isId = true)
    private String filepath;
     @Column(name = "mid")
@@ -19,17 +18,21 @@ public class FilepPathTable {
 
     public FilepPathTable() {
     }
-    public void setmId(int id1){
-        mid=id1;
-    }
+
     public int getmId(){
         return mid;
     }
-    public void setFilepath(String s){
-        filepath=s;
+
+    public void setmId(int id1) {
+        mid = id1;
     }
+
     public String getFilepath(){
         return filepath;
+    }
+
+    public void setFilepath(String s) {
+        filepath = s;
     }
 
     @Override

@@ -24,18 +24,24 @@
         android:theme="@style/AppTheme"
         android:windowNoTitle="true">
         <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:windowNoTitle="true">
+            android:screenOrientation="portrait"
+            android:windowNoTitle="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WorkViewPagerActivity" />
+        <activity
+            android:name=".WorkViewPagerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UpLoadingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle"></activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
