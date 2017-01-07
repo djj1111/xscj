@@ -166,7 +166,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10) {
-            Bundle b = data.getExtras().getBundle("bundle");
+            /*Bundle b = data.getExtras().getBundle("bundle");
             int position = b.getInt("position");
             ListTestTable t = b.getParcelable("ListTestTable");
             mListItems.set(position - 1, t);
@@ -188,7 +188,8 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                 db.save(filepPathTables);
             } catch (DbException e) {
                 e.printStackTrace();
-            }
+            }*/
+            refresh();
             mAdapter.notifyDataSetChanged();
         }
         super.onActivityResult(requestCode, resultCode, data);

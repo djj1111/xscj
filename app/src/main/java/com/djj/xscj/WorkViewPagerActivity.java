@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.djj.jazzyviewpager.JazzyViewPager;
 
-import org.xutils.DbManager;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 public class WorkViewPagerActivity extends FragmentActivity {
 
     private ListTestTable mtablelist;
-    private DbManager db;
+    //private DbManager db;
     private MyFragmentStatePagerAdapter mFragmentStatePagerAdapter;
     private JazzyViewPager mViewPager;
     //上一级控件的位置

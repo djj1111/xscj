@@ -18,6 +18,10 @@ import android.widget.Toast;
 
 import com.djj1111.android.filetools.SDCardScanner;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,6 +43,7 @@ public class WorkFragment extends Fragment {
     private TextView tinputdate, tcnum, tnum, tname, taddress, tcellphone, tphone, tyear, tmonth, tmoney, tfilenums;
     private Button bphoto, brecord;
     private View item;
+    private DbManager db;
 
     private TestTable mTestTable;
     private String photofile, audiofile;
@@ -47,11 +52,7 @@ public class WorkFragment extends Fragment {
     private Drawable backgroundcolor;
     //private View item;
     //private EditText textid, texttext, textip, texttime;
-
-    public static WorkFragment getInstances() {
-        WorkFragment myFragment = new WorkFragment();
-        return myFragment;
-    }
+    private MediaRecorder myRecorder;
 
     /*@Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +65,16 @@ public class WorkFragment extends Fragment {
 
 
     }*/
+    private long recordtime = 0L;
+
+    /*private int initSoundPool() {
+        */
+    private boolean isrecordstop = true;
+
+    public static WorkFragment getInstances() {
+        WorkFragment myFragment = new WorkFragment();
+        return myFragment;
+    }
 
     @Nullable
     @Override
@@ -78,6 +89,7 @@ public class WorkFragment extends Fragment {
             mTestTable.setPhone(savedInstanceState.getString("phone"));
         }*/
         mTestTable = this.getArguments().getParcelable("mTestTable");
+        db = x.getDb(((MyApplication) getActivity().getApplication()).getDaoConfig());
         // 这里必须是null
         //Log.d("Myfragment","count="+count);
         //Toast.makeText(getActivity(),"serials="+mTestTable.getSerialsnum(), Toast.LENGTH_SHORT).show();
@@ -117,48 +129,49 @@ public class WorkFragment extends Fragment {
             }
         });
         brecord.setOnTouchListener(new Button.OnTouchListener() {
-            private long lastTime = 0;
+//            private long lastTime = 0;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final long currentTime = Calendar.getInstance().getTimeInMillis();
+//                final long currentTime = Calendar.getInstance().getTimeInMillis();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (isrecordstop){
-                        if (currentTime - lastTime < 1000) {
-                            //lastTime=currentTime;
+//                    if (isrecordstop) {
+//                        if (currentTime - lastTime < 1000) {
+//                            //lastTime=currentTime;
+//                            return true;
+//                        } else {
+//                            lastTime = currentTime;
+                    startrecord(getOutFile(TYPE_FILE_AUDIO));
                             return true;
-                        } else {
-                            lastTime = currentTime;
-                            audiofile = startrecord(getOutFile(TYPE_FILE_AUDIO));
-                            return true;
-                        }
-                    }
-                    return true;
+//                        }
+//                    }
+//                    return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    final long time = currentTime - lastTime;
-                    if (!isrecordstop) {
-                        if (time < 1000) {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.sleep(1000 - time);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
+//                    final long time = currentTime - lastTime;
+//                    if (!isrecordstop) {
+//                        Log.i("sdfasdasasdas", String.valueOf(time));
+//                        if (time < 1000L) {
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    try {
+//                                        Thread.sleep(1000 - time);
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
                                     stoprecord();
-                                    lastTime = Calendar.getInstance().getTimeInMillis();
-                                }
-                            }).start();
-
-                        } else {
-                            stoprecord();
-                            lastTime = Calendar.getInstance().getTimeInMillis();
-                        }
-                    }
-
-                    return true;
+//                                    lastTime = Calendar.getInstance().getTimeInMillis();
+//                                }
+//                            }).start();
+//
+//                        } else {
+//                            stoprecord();
+//                            lastTime = Calendar.getInstance().getTimeInMillis();
+//                        }
+//                    }
+//
+//                    return true;
                 }
                 return true;
             }
@@ -168,10 +181,9 @@ public class WorkFragment extends Fragment {
         return item;
     }
 
-    /*private int initSoundPool() {
-        *//**
-         * 21版本后，SoundPool的创建发生很大改变
-         *//*
+    /**
+     * 21版本后，SoundPool的创建发生很大改变
+     *//*
         //判断系统sdk版本，如果版本超过21，调用第一种
         if (Build.VERSION.SDK_INT >= 21) {
             SoundPool.Builder builder = new SoundPool.Builder();
@@ -187,7 +199,6 @@ public class WorkFragment extends Fragment {
         //load的返回值是一个int类的值：音频的id，在SoundPool的play()方法中加入这个id就能播放这个音频
         return mPool.load(getContext(), R.raw.reset_sound, 1);
     }*/
-
     private void getphoto() {
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -228,22 +239,20 @@ public class WorkFragment extends Fragment {
         //file.separator 目录分隔符
         String filePath = mediaStorageDir.getPath() + File.separator;
         if (fileType == TYPE_FILE_IMAGE) {
-            filePath += (mTestTable.getNum()+"_"+ timeStamp + ".jpg");
+            filePath += (mTestTable.getNum() + "_" + timeStamp + ".jpg");
         } else if (fileType == TYPE_FILE_VEDIO) {
-            filePath += (mTestTable.getNum()+"_" + timeStamp + ".mp4");
+            filePath += (mTestTable.getNum() + "_" + timeStamp + ".mp4");
         } else if (fileType == TYPE_FILE_AUDIO) {
-            filePath += (mTestTable.getNum()+"_" + timeStamp + ".aac");
+            filePath += (mTestTable.getNum() + "_" + timeStamp + ".aac");
         } else {
             return null;
         }
         return filePath;
     }
 
-    private MediaRecorder myRecorder;
-
     @Nullable
-    private String startrecord(File file) {
-        isrecordstop = false;
+    private boolean startrecord(File file) {
+        if (myRecorder != null) return false;
         myRecorder = new MediaRecorder();
         // 从麦克风源进行录音
         myRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -257,52 +266,78 @@ public class WorkFragment extends Fragment {
             myRecorder.prepare();
             // 开始录音
             myRecorder.start();
+            recordtime = Calendar.getInstance().getTimeInMillis();
+            // isrecordstop = false;
 
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
         //mPool.play(VoicID, 1, 1, 0, 0, 1);
         brecord.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
-        return file.getAbsolutePath();
+        audiofile = file.getAbsolutePath();
+        return true;
     }
 
-    private boolean isrecordstop = true;
-
     private void stoprecord() {
-        boolean haveerror;
-        try {
-            myRecorder.stop();
-            myRecorder.release();
-            haveerror = false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            haveerror = true;
-        }
-        if (!haveerror) {
-            if (audiofile != null) {
-                mTestTable.addfilepath(audiofile);
+        if (myRecorder == null || !isrecordstop) return;
+        isrecordstop = false;
+        final long time = Calendar.getInstance().getTimeInMillis() - recordtime;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (time < 1000L) {
+                    try {
+                        Thread.sleep(1000 - time);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                boolean haveerror;
+                try {
+                    myRecorder.stop();
+                    myRecorder.release();
+                    haveerror = false;
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                    haveerror = true;
+                }
+                if (!haveerror) {
+                    if (audiofile != null) {
+                        mTestTable.addfilepath(audiofile);
+                        try {
+                            db.update(mTestTable);
+                            FilepPathTable filepPathTable = new FilepPathTable();
+                            filepPathTable.setmId(mTestTable.getid());
+                            filepPathTable.setFilepath(audiofile);
+                            db.save(filepPathTable);
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tfilenums.setText(String.valueOf(mTestTable.getFilenums()));
+                            }
+                        });
+                    }
+                } else {
+                    if (audiofile != null) {
+                        File f = new File(audiofile);
+                        if (f.exists()) f.delete();
+                    }
+                }
+                audiofile = null;
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tfilenums.setText(String.valueOf(mTestTable.getFilenums()));
+                        brecord.setBackground(backgroundcolor);
                     }
                 });
+                myRecorder = null;
+                isrecordstop = true;
             }
-        } else {
-            if (audiofile != null) {
-                File f = new File(audiofile);
-                if (f.exists()) f.delete();
-            }
-        }
-        audiofile = null;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                brecord.setBackground(backgroundcolor);
-            }
-        });
-        isrecordstop = true;
+        }).start();
     }
 
     @Override
@@ -310,6 +345,15 @@ public class WorkFragment extends Fragment {
         if (requestCode == SYSTEM_CAMERA_REQUESTCODE) {
             if (resultCode == RESULT_OK) {
                 mTestTable.addfilepath(photofile);
+                try {
+                    db.update(mTestTable);
+                    FilepPathTable filepPathTable = new FilepPathTable();
+                    filepPathTable.setmId(mTestTable.getid());
+                    filepPathTable.setFilepath(photofile);
+                    db.save(filepPathTable);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
                 tfilenums.setText(String.valueOf(mTestTable.getFilenums()));
             } else {
                 Toast.makeText(getActivity(), "拍照不成功", Toast.LENGTH_SHORT).show();
