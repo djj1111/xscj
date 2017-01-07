@@ -43,12 +43,13 @@ public class LoginActivity extends Activity{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+
                     if (!user.equals("")) etUsername.setText(user);
                     if (!password.equals("")) etPassword.setText(password);
-                } else {
+                }/* else {
                     etUsername.setText("");
                     etPassword.setText("");
-                }
+                }*/
             }
         });
 

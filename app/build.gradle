@@ -13,10 +13,21 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
 }
 repositories {
     flatDir {
@@ -35,7 +46,6 @@ dependencies {
     compile(name: 'jazzyviewpager', ext: 'aar')
     compile(name: 'android.filetools', ext: 'aar')
     compile 'org.xutils:xutils:3.3.38'
-    compile 'com.inthecheesefactory.thecheeselibrary:stated-fragment-support-v4:0.9.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
 }

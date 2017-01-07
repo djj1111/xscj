@@ -12,6 +12,7 @@ import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -50,7 +51,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
     private String username, password, ip;
     private int port;
     private DbManager db;
-    private RemoveItemListener mRemoveItemListener;
+    //private RemoveItemListener mRemoveItemListener;
 
     @Override
     public void setIpPort(String ip, int port) {
@@ -90,13 +91,13 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
         });
 
         // Add an end-of-list listener
-        mPullToRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
+        /*mPullToRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
 
             @Override
             public void onLastItemVisible() {
                 Toast.makeText(getActivity(), "End of List!", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         mSlideCutListView = (SlideCutListView) mPullToRefreshListView.getRefreshableView();
         mSlideCutListView.setFrontResId(R.id.front_layout);
@@ -308,8 +309,9 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
     private boolean refresh() {
         try {
             ArrayList<TestTable> res = (ArrayList<TestTable>) db.selector(TestTable.class).where("user", "=", username).orderBy("inputdate").findAll();
-            //ArrayList<ListTestTable> temp_list = new ArrayList<>();
+            //意数据库不存在返回null,数据库存在findall不返回NULL，findfirst可返回NULL
             mListItems.clear();
+            if (res == null) return true;
             if (res.isEmpty()) {
                 return true;
             }
@@ -322,11 +324,13 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                     listTestTable = new ListTestTable();
                 }
                 table.setFilenums(0);
-                //注意findall不返回NULL，findfirst可返回NULL
+                //注意数据库不存在返回null,数据库存在findall不返回NULL，findfirst可返回NULL
                 ArrayList<FilepPathTable> filepPathTables = (ArrayList<FilepPathTable>) db.selector(FilepPathTable.class).where("mid", "=", table.getid()).findAll();
-                if (!filepPathTables.isEmpty()) {
-                    for (FilepPathTable pathTable : filepPathTables){
-                        table.addfilepath(pathTable.getFilepath());
+                if (filepPathTables != null) {
+                    if (!filepPathTables.isEmpty()) {
+                        for (FilepPathTable pathTable : filepPathTables) {
+                            table.addfilepath(pathTable.getFilepath());
+                        }
                     }
                 }
                 listTestTable.add(table);
@@ -399,11 +403,13 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                             out.writeInt(filelength);
                             out.flush();
                             FileInputStream fin = new FileInputStream(file);
-                            //byte[] filebuf=new byte[filelength];
-                            for (int k = 0; k < filelength; k++) {
-                                out.write(fin.read());
+                            int length = 0;
+                            int size = 8 * 1024;
+                            byte[] sendBytes = new byte[size];
+                            while ((length = fin.read(sendBytes, 0, size)) > 0) {
+                                out.write(sendBytes, 0, length);
+                                out.flush();
                             }
-                            out.flush();
                             fin.close();
                             files.add(file);
                         }
@@ -615,25 +621,45 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        //AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-        menu.setHeaderTitle("Item: " + mListItems.get(info.position - 1));
+        //menu.setHeaderTitle("项目: " + mListItems.get(info.position - 1));
         //ListView
-        menu.add("Item 1");
-        menu.add("Item 2");
-        menu.add("Item 3");
-        menu.add("Item 4");
+        menu.setHeaderTitle("任务菜单");
+        menu.add("下载任务");
+        menu.add("上传任务");
+        menu.add("取消任务");
 
         super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getTitle().toString()) {
+            case "下载任务":
+                new GetDataTask().execute();
+                break;
+            case "上传任务":
+                Intent intent_upload = new Intent();
+                intent_upload.putExtra("type", "正在上传任务");
+                intent_upload.setClass(getActivity(), UpLoadingActivity.class);//跳转到加载界面
+                startActivity(intent_upload);
+                new uploadDataTask().execute(mListItems.get(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position - 1));
+                break;
+            case "取消任务":
+                dialog(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position - 1);
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void add(Object t) {
         mListItems.add((ListTestTable) t);
     }
 
-    public void setRemoveItemListener(RemoveItemListener listener) {
+    /*public void setRemoveItemListener(RemoveItemListener listener) {
         mRemoveItemListener = listener;
-    }
+    }*/
 
    /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -681,9 +707,9 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
         outState.putParcelableArrayList("mListItems", mListItems);
     }
 
-    public interface RemoveItemListener {
+    /*public interface RemoveItemListener {
         void removeitem(int direction, Object o);
-    }
+    }*/
 
     private class GetDataTask extends AsyncTask<Void, Void, ArrayList> {
 

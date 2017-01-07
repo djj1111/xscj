@@ -19,6 +19,16 @@ public class FourthFragment extends Fragment {
     private EditText et_ip, et_port;
     private Button bt_save;
     private FreshIpPort freshIpPort;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPreferences = getActivity().getSharedPreferences("main",
+                Activity.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+    }
 
     @Nullable
     @Override
@@ -28,9 +38,6 @@ public class FourthFragment extends Fragment {
         et_ip = (EditText) view.findViewById(R.id.et_setupip);
         et_port = (EditText) view.findViewById(R.id.et_setupport);
         bt_save = (Button) view.findViewById(R.id.bt_savesetup);
-        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("main",
-                Activity.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
         et_ip.setText(sharedPreferences.getString("ip", "192.168.21.1"));
         et_port.setText(String.valueOf(sharedPreferences.getInt("port", 12702)));
         bt_save.setOnClickListener(new Button.OnClickListener() {
@@ -46,6 +53,16 @@ public class FourthFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            et_ip.setText(sharedPreferences.getString("ip", "192.168.21.1"));
+            et_port.setText(String.valueOf(sharedPreferences.getInt("port", 12702)));
+        }
+
     }
 
     public void setFreshIpPort(FreshIpPort freshIpPort) {
