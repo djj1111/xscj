@@ -18,6 +18,7 @@ import android.widget.EditText;
 public class FourthFragment extends Fragment {
     private EditText et_ip, et_port;
     private Button bt_save;
+    private FreshIpPort freshIpPort;
 
     @Nullable
     @Override
@@ -40,9 +41,18 @@ public class FourthFragment extends Fragment {
                 editor.putBoolean("isfirst", false);
                 editor.apply();
                 ((MyApplication) getActivity().getApplication()).setIp(et_ip.getText().toString());
-                ((MyApplication) getActivity().getApplication()).setPort(sharedPreferences.getInt("port", 12702));
+                ((MyApplication) getActivity().getApplication()).setPort(Integer.parseInt(et_port.getText().toString()));
+                freshIpPort.setIpPort(et_ip.getText().toString(), Integer.parseInt(et_port.getText().toString()));
             }
         });
         return view;
+    }
+
+    public void setFreshIpPort(FreshIpPort freshIpPort) {
+        this.freshIpPort = freshIpPort;
+    }
+
+    public interface FreshIpPort {
+        public void setIpPort(String ip, int port);
     }
 }

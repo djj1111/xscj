@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@drawable/rectangle">
+        android:background="@drawable/rectangle_bottom">
 
         <TextView
+            android:id="@+id/left_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/left_view"
             android:layout_gravity="left|center_vertical"
             android:layout_margin="15dip"
             android:text="继续向右滑上传任务"
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/right_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/right_view"
             android:layout_gravity="right|center_vertical"
             android:layout_margin="15dip"
-            android:textSize="18sp"
-            android:text="继续向左滑删除任务"/>
+            android:text="继续向左滑删除任务"
+            android:textSize="18sp" />
     </FrameLayout>
 
 

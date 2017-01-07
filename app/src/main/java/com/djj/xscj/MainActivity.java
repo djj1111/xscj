@@ -44,6 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             f3 = new ThirdFragment();
             mtransaction.add(R.id.fragment_container,f3,"F_f3");
             f4 = new FourthFragment();
+            f4.setFreshIpPort(f1);
             mtransaction.add(R.id.fragment_container,f4,"F_f4");
         } else {
             f1 = (FirstFragment) getFragmentManager().getFragment(savedInstanceState,"F_f1");

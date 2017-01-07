@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * Created by djj on 2016/12/18.
  */
 
-public class FirstFragment extends Fragment {
+public class FirstFragment extends Fragment implements FourthFragment.FreshIpPort {
     private final String appname = "xscj";
     private MyPullToRefreshListView mPullToRefreshListView;
     private SlideCutListView mSlideCutListView;
@@ -52,7 +52,10 @@ public class FirstFragment extends Fragment {
     private DbManager db;
     private RemoveItemListener mRemoveItemListener;
 
-    public FirstFragment() {
+    @Override
+    public void setIpPort(String ip, int port) {
+        this.port = port;
+        this.ip = ip;
     }
 
     @Override
