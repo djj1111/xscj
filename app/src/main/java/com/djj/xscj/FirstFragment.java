@@ -213,7 +213,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
         int count = 0;
         try {
             socket.connect((new InetSocketAddress(ip, port)), 3000);
-            socket.setSoTimeout(100000);
+            socket.setSoTimeout(10000);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             DataInputStream in = new DataInputStream(socket.getInputStream());
             out.writeUTF(appname);
@@ -367,7 +367,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
         int count = 0;
         try {
             socket.connect((new InetSocketAddress(ip, port)), 3000);
-            socket.setSoTimeout(100000);
+            socket.setSoTimeout(10000);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             DataInputStream in = new DataInputStream(socket.getInputStream());
             out.writeUTF(appname);
@@ -491,17 +491,18 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
 
     private int canceldata(ListTestTable listTestTable){
         ArrayList<TestTable> uploadlist = listTestTable.getListTestTable();
-        int prepare_count = listTestTable.gethasfileitemnums();
-        if (prepare_count > 0) {
-            Toast.makeText(getActivity(), "文件将全部删除", Toast.LENGTH_SHORT).show();
-            //return 0;
-        }
-        prepare_count=uploadlist.size();
+        //防止uploadingactivity还没打开，为空。
+        /*try {
+            Thread.sleep(500);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }*/
+        int prepare_count = uploadlist.size();
         Socket socket = new Socket();
         int count = 0;
         try {
             socket.connect((new InetSocketAddress(ip, port)), 3000);
-            socket.setSoTimeout(100000);
+            socket.setSoTimeout(10000);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             DataInputStream in = new DataInputStream(socket.getInputStream());
             out.writeUTF(appname);
