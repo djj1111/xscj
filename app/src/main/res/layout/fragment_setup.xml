@@ -19,7 +19,7 @@
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
@@ -69,6 +69,15 @@
                 android:text="保  存"
                 android:textSize="24sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="120dp"
+                android:gravity="center"
+                android:text="Version 1.0\nCopyright © Jiajun Deng\nemail:dengjiajun1108@163.com"
+                android:textSize="18sp" />
 
 
         </LinearLayout>

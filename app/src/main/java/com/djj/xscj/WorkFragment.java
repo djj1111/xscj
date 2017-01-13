@@ -41,7 +41,7 @@ public class WorkFragment extends Fragment {
     private final static int TYPE_FILE_IMAGE = 1, TYPE_FILE_VEDIO = 2, TYPE_FILE_AUDIO = 3, SYSTEM_CAMERA_REQUESTCODE = 11;
 
     private TextView tinputdate, tcnum, tnum, tname, taddress, tcellphone, tphone, tyear, tmonth, tmoney, tfilenums;
-    private Button bphoto, brecord;
+    private Button bphoto, brecord, bvideo;
     private View item;
     private DbManager db;
 
@@ -89,6 +89,7 @@ public class WorkFragment extends Fragment {
             mTestTable.setPhone(savedInstanceState.getString("phone"));
         }*/
         mTestTable = this.getArguments().getParcelable("mTestTable");
+        photofile = this.getArguments().getString("photofile");
         db = x.getDb(((MyApplication) getActivity().getApplication()).getDaoConfig());
         // 这里必须是null
         //Log.d("Myfragment","count="+count);
@@ -121,11 +122,18 @@ public class WorkFragment extends Fragment {
         tfilenums.setText(String.valueOf(mTestTable.getFilenums()));
         bphoto = (Button) item.findViewById(R.id.button_photo);
         brecord = (Button) item.findViewById(R.id.button_record);
+        bvideo = (Button) item.findViewById(R.id.button_video);
         backgroundcolor = brecord.getBackground();
         bphoto.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getphoto();
+            }
+        });
+        bvideo.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getvideo();
             }
         });
         brecord.setOnTouchListener(new Button.OnTouchListener() {
@@ -203,26 +211,53 @@ public class WorkFragment extends Fragment {
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri imageFileUri = getOutFileUri(TYPE_FILE_IMAGE);//得到一个File Uri
+        if (imageFileUri == null) return;
         photofile = imageFileUri.getPath();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
         startActivityForResult(intent, SYSTEM_CAMERA_REQUESTCODE);
     }
 
+    private void getvideo() {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+        Uri imageFileUri = getOutFileUri(TYPE_FILE_VEDIO);//得到一个File Uri
+        if (imageFileUri == null) return;
+        photofile = imageFileUri.getPath();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 5);
+        startActivityForResult(intent, SYSTEM_CAMERA_REQUESTCODE);
+    }
+
     private Uri getOutFileUri(int fileType) {
-        return Uri.fromFile(getOutFile(fileType));
+        File file = getOutFile(fileType);
+        if (file == null) {
+            return null;
+        } else {
+            return Uri.fromFile(file);
+        }
     }
 
     @Nullable
     private File getOutFile(int fileType) {
-        List<String> SDcard = SDCardScanner.getExtSDCardPaths();
+        List<String> SDcard = SDCardScanner.getExtSDCardPaths(true);
         if (SDcard.isEmpty()) {
-            Toast.makeText(getActivity(), "无内存卡", Toast.LENGTH_SHORT).show();
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "无内存卡", Toast.LENGTH_SHORT).show();
+                }
+            });
             return null;
         }
         File mediaStorageDir = new File(SDcard.get(0), ".wxwaterwork_cb");
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Toast.makeText(getActivity(), "创建文件存储路径目录失败", Toast.LENGTH_SHORT).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "创建文件存储路径目录失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 return null;
             }
         }
@@ -356,7 +391,7 @@ public class WorkFragment extends Fragment {
                 }
                 tfilenums.setText(String.valueOf(mTestTable.getFilenums()));
             } else {
-                Toast.makeText(getActivity(), "拍照不成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "拍照、录像不成功", Toast.LENGTH_SHORT).show();
             }
             photofile = null;
         }
@@ -372,6 +407,7 @@ public class WorkFragment extends Fragment {
     @Override
     public void onDestroyView() {
         this.getArguments().putParcelable("mTestTable", mTestTable);
+        this.getArguments().putString("photofile", photofile);
         super.onDestroyView();
     }
 

@@ -206,6 +206,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
         menu.add(0, MENU_DEMO, 0, "Demo");
         return super.onCreateOptionsMenu(menu);
     }*/
+
     private int downloaddata() {
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String imei = telephonyManager.getDeviceId();
@@ -259,7 +260,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getActivity(), "refresh错误", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "refresh故障", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -292,7 +293,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "sqlite错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "sqlite故障", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (IOException e) {
@@ -300,7 +301,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "网络故障", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -394,7 +395,13 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                         for (int i = 0; i < filenums; i++) {
                             File file = new File(table.getfilepath().get(i));
                             if (!file.exists()) {
-                                Toast.makeText(getActivity(), "没有找到文件", Toast.LENGTH_SHORT).show();
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getActivity(), "没有找到文件", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
                                 return -1;
                             }
                             String[] path = file.getAbsolutePath().split(File.separator);
@@ -440,7 +447,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getActivity(), "refresh错误", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "refresh故障", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -473,7 +480,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "sqlite错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "sqlite故障", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (IOException e) {
@@ -481,7 +488,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "网络故障", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -542,7 +549,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getActivity(), "refresh错误", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "refresh故障", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -575,7 +582,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "sqlite错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "sqlite故障", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (IOException e) {
@@ -583,7 +590,7 @@ public class FirstFragment extends Fragment implements FourthFragment.FreshIpPor
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "网络故障", Toast.LENGTH_SHORT).show();
                 }
             });
         }

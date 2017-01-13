@@ -34,11 +34,12 @@
         </activity>
         <activity
             android:name=".WorkViewPagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UpLoadingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
