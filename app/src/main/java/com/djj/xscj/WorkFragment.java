@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.djj1111.android.filetools.SDCardScanner;
-
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -239,17 +236,9 @@ public class WorkFragment extends Fragment {
 
     @Nullable
     private File getOutFile(int fileType) {
-        List<String> SDcard = SDCardScanner.getExtSDCardPaths(true);
-        if (SDcard.isEmpty()) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getActivity(), "无内存卡", Toast.LENGTH_SHORT).show();
-                }
-            });
-            return null;
-        }
-        File mediaStorageDir = new File(SDcard.get(0), ".wxwaterwork_cb");
+        String path = ((WorkViewPagerActivity) getActivity()).getPath();
+        if (path == null) return null;
+        File mediaStorageDir = new File(path, ".wxwaterwork_cb");
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 getActivity().runOnUiThread(new Runnable() {

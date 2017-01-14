@@ -10,10 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.djj.jazzyviewpager.JazzyViewPager;
+import com.djj1111.android.filetools.SDCardScanner;
 
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by djj on 2016/12/4.
@@ -30,6 +32,7 @@ public class WorkViewPagerActivity extends FragmentActivity {
     private int position;
     private int total;
     private TextView textView;
+    private String path;
 
 
     /*private void update() {
@@ -89,9 +92,20 @@ public class WorkViewPagerActivity extends FragmentActivity {
             }
             mFragmentStatePagerAdapter.notifyDataSetChanged();
         }
+        List<String> SDcard = SDCardScanner.getExtSDCardPaths(true);
+        if (SDcard.isEmpty()) {
+            Toast.makeText(WorkViewPagerActivity.this, "无存储卡", Toast.LENGTH_SHORT).show();
+            path = null;
+            this.onBackPressed();
+        } else {
+            path = SDcard.get(0);
+        }
 
     }
 
+    public String getPath() {
+        return path;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
