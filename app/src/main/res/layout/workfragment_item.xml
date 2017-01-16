@@ -23,7 +23,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="导入日期："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvinputdate"
@@ -35,7 +35,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
         android:fitsSystemWindows="false"
         android:gravity="left|center_vertical"
         android:text="册本缟号："
-        android:textSize="18sp"
+        android:textSize="@dimen/textsize"
         android:textStyle="normal|bold" />
     <TextView
         android:id="@+id/tvcnum"
@@ -69,7 +69,7 @@
         android:gravity="left|center_vertical"
         android:maxLines="1"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="@dimen/textsize" />
 
 </LinearLayout>
     <View
@@ -92,7 +92,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="表卡编号："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvnum"
@@ -104,7 +104,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -127,7 +127,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="用户姓名："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvname"
@@ -139,7 +139,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -162,7 +162,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="用户地址："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvaddress"
@@ -174,7 +174,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -197,7 +197,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="手机号码："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvcellphone"
@@ -209,7 +209,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -232,7 +232,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="电话号码："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvphone"
@@ -244,7 +244,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -267,7 +267,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="开帐年份："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvyear"
@@ -279,7 +279,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -302,7 +302,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="开帐月份："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvmonth"
@@ -314,7 +314,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -337,7 +337,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="欠费金额："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvmoney"
@@ -349,7 +349,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -372,7 +372,7 @@
             android:fitsSystemWindows="false"
             android:gravity="left|center_vertical"
             android:text="文件数量："
-            android:textSize="18sp"
+            android:textSize="@dimen/textsize"
             android:textStyle="normal|bold" />
         <TextView
             android:id="@+id/tvfilenums"
@@ -384,7 +384,7 @@
             android:gravity="left|center_vertical"
             android:maxLines="1"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
     </LinearLayout>
     <View
@@ -396,31 +396,36 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:gravity="center"
-        android:measureWithLargestChild="true"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="点击录像"></Button>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:text="点击录像"
+            android:textSize="@dimen/textsize"></Button>
 
         <Button
             android:id="@+id/button_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="点击拍照">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:text="点击拍照"
+            android:textSize="@dimen/textsize">
         </Button>
 
 
         <Button
             android:id="@+id/button_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="长按录音">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:text="长按录音"
+            android:textSize="@dimen/textsize">
         </Button>
 
 
